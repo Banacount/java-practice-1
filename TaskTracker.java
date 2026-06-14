@@ -53,7 +53,7 @@ class Tasks {
 
 			System.out.printf("Detail: %s\nStatus: %s\n", 
 						spotted_task.detail,
-						spotted_task.status
+						spotted_task_status
 					);
 
 			System.out.print("Are your sure to delete this task? [Y/n]: ");
@@ -70,6 +70,8 @@ class Tasks {
 			} else {
 				System.out.println("Operation canceled.");
 			}
+
+			input.close();
 		} else
 			System.out.printf("Can't find any task with id '%d'.\n", key_id);
 
