@@ -47,8 +47,29 @@ class Tasks {
 		}
 
 		if (index_key >= 0) {
-			tasks.remove(index_key);
-			System.out.printf("Deleted task with id '%d'.\n", key_id);
+			Scanner input = new Scanner(System.in);
+			Task spotted_task = tasks.get(index_key);
+			String spotted_task_status = (spotted_task.status == 0 ? "undone" : "completed");
+
+			System.out.printf("Detail: %s\nStatus: %s\n", 
+						spotted_task.detail,
+						spotted_task.status
+					);
+
+			System.out.print("Are your sure to delete this task? [Y/n]: ");
+			String str_usr = input.nextLine(); 
+			boolean conditions = (
+						str_usr.equals("") 
+						||
+						str_usr.toLowerCase().equals("y")
+					);
+
+			if (conditions) {
+				tasks.remove(index_key);
+				System.out.printf("Deleted task with id '%d'.\n", key_id);
+			} else {
+				System.out.println("Operation canceled.");
+			}
 		} else
 			System.out.printf("Can't find any task with id '%d'.\n", key_id);
 
@@ -143,7 +164,7 @@ class TaskTracker {
 		if (args.length >= 2) 
 		{
 			// Add task
-			if (args[0].equals("add-task")) {
+			if (args[0].equals("add-task") || args[0].equals("add")) {
 				Tasks session = new Tasks(args[1]);
 				Scanner input = new Scanner(System.in);
 				session.loadFile();
