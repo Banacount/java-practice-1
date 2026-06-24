@@ -90,7 +90,6 @@ class Tasks {
 								task.detail);
 		}
 	}
-
 	public void markDone (int task_id) {
 		int target_index = -1;
 		int count = 0;
@@ -137,15 +136,19 @@ class Tasks {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] string_task = line.split("\\|");
+				int loaded_task_id = Integer.valueOf(string_task[1]);
 
 				Task got = new Task(
 						string_task[0], 
-						id_tracker, 
+						loaded_task_id, 
 						Byte.valueOf(string_task[2]));
 
+				if (loaded_task_id >= id_tracker) 
+					id_tracker = loaded_task_id + 1;
+
 				this.tasks.add(got);
-				id_tracker++;
 			}
+			System.out.println("Id tracker value: " + String.valueOf(id_tracker));
 
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -166,7 +169,8 @@ class TaskTracker {
 		if (args.length >= 2) 
 		{
 			// Add task
-			if (args[0].equals("add-task") || args[0].equals("add")) {
+			if (args[0].equals("add-task") || args[0].equals("add")) 
+			{
 				Tasks session = new Tasks(args[1]);
 				Scanner input = new Scanner(System.in);
 				session.loadFile();
@@ -184,7 +188,8 @@ class TaskTracker {
 			}
 
 			// View tasks
-			else if (args[0].equals("view-tasks") || args[0].equals("ls")) {
+			else if (args[0].equals("view-tasks") || args[0].equals("ls")) 
+			{
 				Tasks session = new Tasks(args[1]);
 				session.loadFile();
 				session.viewTasks();
@@ -194,7 +199,7 @@ class TaskTracker {
 		if (args.length >= 3) 
 		{
 			// Mark tasks
-			if (args[0].equals("mark-task")) {
+			if (args[0].equals("mark")) {
 				Tasks session = new Tasks(args[1]);
 				session.loadFile();
 				int id_target;
@@ -210,7 +215,7 @@ class TaskTracker {
 			}
 
 			// Delete tasks
-			if (args[0].equals("delete-task")) {
+			if (args[0].equals("delete")) {
 				Tasks session = new Tasks(args[1]);
 				session.loadFile();
 				int id_target;
@@ -225,31 +230,5 @@ class TaskTracker {
 				session.writeToFile();
 			}
 		}
-
-		//for (String arg : args) {
-		//	System.out.println(arg);
-		//}
-		
-		/*
-		 *
-		 * Test case:
-		Tasks session = new Tasks("test");
-		session.addTask("Your mum");
-		session.addTask("Bruh");
-		session.addTask("Brushings");
-		session.addTask("Nggas");
-
-		session.viewTasks();
-		session.loadFile();
-		System.out.println("");
-		session.markDone(2);
-		session.viewTasks();
-		session.writeToFile();
-		*/
-
-		//System.out.println(session.viewTasks().get(0).detail);
-		//for (Task task : session.getTasks()) {
-		//	System.out.println(task.detail);
-		//}
 	}
 }
