@@ -78,7 +78,12 @@ class printTable {
 class Main {
 	public static void main (String[] args) 
 	{ 
-		File file_test = new File("data.txt"); 
+		if (args.length < 1) {
+			System.out.println("Please enter the name of the file.");
+			return;
+		}
+
+		File file_test = new File(args[0]); 
 		int row_count = 0, column_count = 0;
 
 		ArrayList<Integer> longLenPerColumn = new ArrayList<>();
@@ -133,36 +138,10 @@ class Main {
 
 			reader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("An error happened.");
-			e.printStackTrace();
+			System.out.println("Couldn't find the file.");
 		}
 
 		// Test formatting
 		printTable.wholeTable(longLenPerColumn, tableList);
-		
-		//System.out.println(String.valueOf(row_count));
-		//System.out.println(String.valueOf(column_count));
 	}
 }
-/*
-System.out.println("|-----|----------------------------|---------|----------|");
-System.out.println("---------------------------------------------------------");
-System.out.println("|-------------------------------------------------------|");
-System.out.printf("| %-3s | %-26s | %-7s | %-8s |\n", 
-				parsed[0], parsed[1], parsed[2], parsed[3]);
-*/
-
-/*
- * Let's start cleaning but wait
- *
-	// Loop per row
-	for (String[] row_strings : tableList) 
-	{
-		// Loop per column
-		for (String column_string: row_strings) 
-		{
-			System.out.printf("%s, ", column_string);
-		}
-		System.out.println("");
-	}
-*/
